@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Aryan Palaskar</title>
+  <link rel="icon" href="/favicon.svg" type="image/+xml">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 24px;
+      color: #1f2937;
+      background: #ffffff;
+    }
+    .card {
+      max-width: 800px;
+      background: #fff;
+      padding: 20px 24px;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    h1 { margin-top: 0; }
+    .tag { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 999px; margin-right: 6px; }
+    a { color: #2563eb; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Aryan Palaskar</h1>
+    <p>Hi.</p>
+
+    <h2>Favorites</h2>
+    <p>
+      <span class="tag">Autonomous Cars</span>
+      <span class="tag">Racing</span>
+    </p>
+
+    <h2>Mini Interaction</h2>
+    <p id="greeting">Loading greeting...</p>
+
+    <p><a href="/">← Back to Team Home</a></p>
+  </div>
+
+  <script>
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    document.getElementById("greeting").textContent = `${greeting}! Thanks for visiting my page.`;
+  </script>
+</body>
+</html>

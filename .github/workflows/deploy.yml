@@ -1,0 +1,42 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: ["main", "master"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DO_USER: ${{ secrets.DO_USER }}
+      DO_HOST: ${{ secrets.DO_HOST }}
+      DO_PATH: ${{ secrets.DO_PATH }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DO_SSH_KEY }}
+
+      - name: Validate deploy secrets
+        run: |
+          for v in DO_USER DO_HOST DO_PATH; do
+            if [[ -z "${!v}" ]]; then
+              echo "$v is empty"
+              exit 1
+            fi
+          done
+
+      - name: Test SSH connection
+        run: ssh -o StrictHostKeyChecking=no "$DO_USER@$DO_HOST" "echo ok"
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no" \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude "README.md" \
+            ./ "$DO_USER@$DO_HOST:$DO_PATH"
